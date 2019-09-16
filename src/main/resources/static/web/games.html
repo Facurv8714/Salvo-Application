@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvo</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="gamesContainer">
+        <div id="app" class="container">
+            <header class="row mb-4">
+                <h1 class="tittle col-5 ">¡Salvo Application!</h1>
+                <div id="loginForm" class="col-7">
+                    <form v-if="user == null">
+                        <fieldset class="mt-2">
+                            <div class="row">
+                                <div class="col">
+                                    <label><input type="text" class="form-control" id="userName" placeholder="User Name" v-model:value="userName"></label>
+                                </div>
+                                <div class="col">
+                                    <label><input type="password" class="form-control" id="password"  placeholder="Password" v-model:value="password"></label>
+                                </div>
+                                <label>
+                                    <button type="button" class="btn btn-dark mr-2 ml-3" v-on:click="login">Log In!</button>
+                                </label>
+                                <label>
+                                    <button type="button" class="btn btn-primary mr-2 ml-3" v-on:click="signUp">Sign Up!</button>
+                                </label>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div>
+                        <form v-if="user != null" class="mt-2">
+                            <label>
+                                <button type="button" class="btn btn-dark mr-2 ml-3" v-on:click="logout">Log Out</button>
+                            </label>
+                            <label>
+                                <button type="button" class="btn btn-primary mr-2 ml-3" v-on:click="createAGame()">Create a game</button>
+                            </label>
+                        </form>
+                    </div>
+                </div>
+            </header>
+            <div class="row">
+                <ol id="orderList">
+                    <li v-for="game in games">
+                        <span>{{game.created}}</span>
+                        <ul>
+                            <li v-for="gp in game.gamePlayers">
+                                <span>{{gp.player.email}}</span>
+                                <span v-if="user != null">
+                                    <div v-if="user.id == gp.player.id">
+                                        <a v-bind:href="'http://localhost:8080/web/game.html?gp=' + gp.id">
+                                            <button type="button" class="btn btn-primary">Back to game!</button>
+                                        </a>
+                                    </div>
+                                </span>
+                            </li>
+                            <span v-if="user != null">
+                                <div v-if="game.gamePlayers[1] == null" v-for="gp in game.gamePlayers">
+                                    <div v-if="user.email != gp.player.email">
+                                        <button v-on:click="joinAGame(game.id)" type="button" class="btn btn-primary">Join Game</button>
+                                    </div>
+                                </div>
+                            </span>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+            <div class="row">
+                <table class="table table-sm results">
+                    <thead>
+                        <tr>
+                            <th scope="col">Players</th>
+                            <th scope="col">Win</th>
+                            <th scope="col">Lost</th>
+                            <th scope="col">Tie</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="s in scores">
+                            <th scope="row" >{{s.email}}</th>
+                            <td>{{s.win}}</td>
+                            <td>{{s.lost}}</td>
+                            <td>{{s.tie}}</td>
+                            <td>{{s.total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="games.js"></script>
+
+
+</html>

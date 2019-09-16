@@ -1,0 +1,124 @@
+.gamesContainer {
+    background-image: url('concert.jpg');
+    background-size: cover;
+}
+
+#loginForm {
+    float: right;
+    opacity: 0.9;
+    filter: alpha(opacity=100);
+}
+
+
+.results {
+    color: white;
+    background-color: #EB9918;
+    opacity: 0.9;
+    filter: alpha(opacity=100);
+}
+
+#orderList{
+    color: black;
+}
+
+.grid-ships{
+    background-image: url('grid-bkg.png');
+    background-size: cover;
+    padding-top: 45px;
+    padding-left: 45px;
+    border: solid black;
+    height: 450px;
+    width: 450px;
+    position: relative;
+}
+
+.salvos{
+    height: 450px;
+    width: 450px;
+}
+
+.grid-stack-item-content {
+    opacity: 0.9;
+    background-repeat: no-repeat;
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+    left: 0px !important;
+}
+
+.PianoHorizontal{
+    background-image: url('piano_horizontal.png');
+    background-size: contain;
+}
+
+.PianoVertical{
+    background-image: url('piano.png');
+    background-size: 100% 100%;
+    width: 45px !important;
+}
+
+.TrompetaHorizontal{
+    background-image: url('trompeta_horizontal.png');
+    background-size: contain;
+}
+
+.TrompetaVertical{
+    background-image: url('trompeta.png');
+    background-size: 100% 100%;
+    width: 45px !important;
+}
+
+.GuitarraHorizontal{
+    background-image: url('guitarra_horizontal.png');
+    background-size: contain;
+}
+
+.GuitarraVertical{
+    background-image: url('guitarra.png');
+    background-size: 100% 100%;
+    width: 40px !important;
+}
+
+.MicrofonoHorizontal{
+    background-image: url('microfono_horizontal.png');
+    background-size: contain;
+}
+
+.MicrofonoVertical{
+    background-image: url('microfono.png');
+    background-size: 100% 100%;
+    width: 40px !important;
+}
+
+.BaquetasHorizontal{
+    background-image: url('baquetas_horizontal.png');
+    background-size: contain;
+}
+
+.BaquetasVertical{
+    background-image: url('baquetas.png');
+    background-size: 100% 100%;
+    width: 20px !important;
+}
+
+.enemyShot {
+    width: 30px;
+    height: 30px;
+    background-image: url('smoke.gif');
+    position: absolute;
+}
+
+.enemyMiss {
+    width: 30px;
+    height: 30px;
+    background-image: url('x.gif');
+    position: absolute;
+}
+
+.myShot {
+    width: 25px;
+    height: 25px;
+    background-color: lightblue;
+    position: absolute;
+}
+
+
