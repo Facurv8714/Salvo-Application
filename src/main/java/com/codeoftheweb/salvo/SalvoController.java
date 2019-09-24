@@ -129,7 +129,7 @@ public class SalvoController {
         }
 
         Optional<GamePlayer> gamePlayerOptional = gamePlayerRepository.findById(gamePlayerId);
-        if (gamePlayerOptional.isEmpty() == true){
+        if (gamePlayerOptional.isEmpty()){
             return new ResponseEntity(makeMap("error", "You don´t have acces"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -137,7 +137,7 @@ public class SalvoController {
 
         Player player = playerRepository.findByUserName(authentication.getName());
 
-       if(ships.size() >= 5){
+       if(gamePlayer.getShips().size() >= 5){
            return new ResponseEntity<>("error", HttpStatus.FORBIDDEN);
        }
 
@@ -201,7 +201,7 @@ public class SalvoController {
     private Map<String, Object> makeShipDTO(Ship ship) {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("type", ship.getType());
-        dto.put("locations", ship.getListLocations());
+        dto.put("locations", ship.getLocations());
         return dto;
     }
 

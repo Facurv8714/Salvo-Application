@@ -4,7 +4,8 @@ var app = new Vue({
     gameView: {},
     player1: {},
     player2: {},
-    user: null
+    user: null,
+    gpid: null
   },
   methods: {
 
@@ -14,8 +15,12 @@ var app = new Vue({
           },
  posicionateShips: function(){
       $.post({
-        url: '/api/games/players/'+app.gameView.id+'/ships',
-        data: JSON.stringify( [ { "type": "Microfono", "locations": ["A1", "B1", "C1"] } ] ),
+        url: '/api/games/players/'+app.gpid+'/ships',
+        data: JSON.stringify( [ { "type": "Microfono", "locations": ["A1", "B1", "C1"] },
+                                { "type": "Baquetas", "locations": ["A2", "B2", "C2"] },
+                                {"type": "Trompeta", "locations": ["A3", "B3"] },
+                                {"type": "Piano", "locations": ["A4", "B4", "C4", "D4", "E4"] },
+                                {"type": "Guitarra", "locations": ["A5", "B5", "C5", "D5"] }] ),
         dataType: "text",
         contentType: "application/json"
         })
@@ -25,16 +30,16 @@ var app = new Vue({
         .fail(function(){
         alert("Failed to add ship");
         })
-      }
+      },
 }
 })
 
 
 const urlParams = new URLSearchParams(window.location.search);
-const myGamePlayerId = urlParams.get('gp');
+app.gpid = urlParams.get('gp');
 
 
-fetch('/api/game_view/'+ myGamePlayerId)
+fetch('/api/game_view/'+ app.gpid)
   .then(function(response) {
         return response.json();
    })
@@ -58,7 +63,7 @@ fetch('/api/game_view/'+ myGamePlayerId)
 
 function players(gamePlayers){
     for (var i = 0; i < gamePlayers.length; i++){
-       if (gamePlayers[i].id == myGamePlayerId)
+       if (gamePlayers[i].id == app.gpid)
         app.player1 = gamePlayers[i].player;
        else
         app.player2 = gamePlayers[i].player;
@@ -67,6 +72,7 @@ function players(gamePlayers){
 
 function playShips(ships){
     grid = $('#grid').data('gridstack');
+    if(ships.length != 0){
     ships.forEach(function(ship){
        var searchChar = ship.locations[0].slice(0, 1);
        var secondChar = ship.locations[1].slice(0, 1);
@@ -97,7 +103,19 @@ function playShips(ships){
              grid.addWidget($('<div id="'+ship.type+'"><div class="grid-stack-item-content ' + ship.type +'Vertical"></div><div/>'),
              xInGrid, yInGrid, 1, ship.locations.length, false);
           }
-    })
+    })}
+    else {
+        grid.addWidget($('<div id="Trompeta"><div class="grid-stack-item-content TrompetaHorizontal"></div><div/>'),
+        0, 0, 2, 1, false),
+        grid.addWidget($('<div id="Baquetas"><div class="grid-stack-item-content BaquetasHorizontal"></div><div/>'),
+        0, 0, 3, 1, false),
+        grid.addWidget($('<div id="Microfono"><div class="grid-stack-item-content MicrofonoHorizontal"></div><div/>'),
+        0, 0, 3, 1, false),
+        grid.addWidget($('<div id="Piano"><div class="grid-stack-item-content PianoHorizontal"></div><div/>'),
+        0, 0, 5, 1, false),
+        grid.addWidget($('<div id="Guitarra"><div class="grid-stack-item-content GuitarraHorizontal"></div><div/>'),
+        0, 0, 4, 1, false)
+    }
 }
 
 function addEvents(){

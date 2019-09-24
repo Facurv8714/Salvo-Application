@@ -28,7 +28,7 @@ public class Ship {
 
 
     public Ship() { }
-    public Ship (String type, List location) {
+    public Ship (String type, List<String> location) {
         this.type = type;
         this.locations = location;
     };
@@ -37,7 +37,7 @@ public class Ship {
         return type;
     }
 
-    public List<String> getListLocations() {
+    public List<String> getLocations() {
         return locations;
     }
 
