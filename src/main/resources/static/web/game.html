@@ -18,9 +18,11 @@
             <label><button type="button" class="btn btn-outline-dark" v-on:click="logout">Log Out</button></label>
         </form>
     </div>
-    <div>
-        <form>
-            <label><button type="button" class="btn btn-dark" v-on:click="posicionateShips">Add ship</button></label>
+    <div v-if="gameView.ships != null && gameView.ships.length == 0">
+        <form >
+            <label>
+                <button type="button" class="btn btn-dark" v-on:click="posicionateShips">Add ship</button>
+            </label>
         </form>
     </div>
     <div>

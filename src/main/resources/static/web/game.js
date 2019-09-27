@@ -5,7 +5,8 @@ var app = new Vue({
     player1: {},
     player2: {},
     user: null,
-    gpid: null
+    gpid: null,
+    arrayLocationsShip: []
   },
   methods: {
 
@@ -14,25 +15,49 @@ var app = new Vue({
              .done(function() { window.location="http://localhost:8080/web/games.html?userName=ntsd&Password="; console.log("logged out!");})
           },
  posicionateShips: function(){
+        app.recorrerShips();
       $.post({
         url: '/api/games/players/'+app.gpid+'/ships',
-        data: JSON.stringify( [ { "type": "Microfono", "locations": ["A1", "B1", "C1"] },
-                                { "type": "Baquetas", "locations": ["A2", "B2", "C2"] },
-                                {"type": "Trompeta", "locations": ["A3", "B3"] },
-                                {"type": "Piano", "locations": ["A4", "B4", "C4", "D4", "E4"] },
-                                {"type": "Guitarra", "locations": ["A5", "B5", "C5", "D5"] }] ),
+        data: JSON.stringify( app.arrayLocationsShip ),
         dataType: "text",
         contentType: "application/json"
         })
         .done(function(){
         alert("Ship added:");
+        window.location.reload(true);
+
         })
         .fail(function(){
         alert("Failed to add ship");
         })
+
       },
+
+recorrerShips: function(){
+ $("#Trompeta, #Baquetas, #Microfono, #Piano, #Guitarra").each(function(i, barco){
+       var h = parseInt($(this).attr("data-gs-height"));
+       var w = parseInt($(this).attr("data-gs-width"));
+       var posX = parseInt($(this).attr("data-gs-x"));
+       var posY = parseInt($(this).attr("data-gs-y"));
+
+       var arrayLocations = [];
+            if(w != 1){
+            for (var i = 0; i < w; i++){
+                arrayLocations.push(String.fromCharCode(65+posY)+(posX+1+i));
+            }
+            } else{
+                    for (var i = 0; i < h; i++){
+            arrayLocations.push(String.fromCharCode(i+posY+65)+(posX+1));
+            }
+            }
+       app.arrayLocationsShip.push({ "type":barco.id, "locations": arrayLocations})
+})
+console.log(app.arrayLocationsShip);
+}
 }
 })
+
+
 
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -118,6 +143,9 @@ function playShips(ships){
     }
 }
 
+
+
+
 function addEvents(){
    $("#Trompeta, #Baquetas, #Microfono, #Piano, #Guitarra").click(function(){
        var h = parseInt($(this).attr("data-gs-height"));
@@ -202,3 +230,4 @@ function playSalvoes(salvoes, ships){
         }
        }
 }
+

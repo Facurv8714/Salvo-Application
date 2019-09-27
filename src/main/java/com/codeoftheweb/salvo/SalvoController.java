@@ -138,7 +138,7 @@ public class SalvoController {
         Player player = playerRepository.findByUserName(authentication.getName());
 
        if(gamePlayer.getShips().size() >= 5){
-           return new ResponseEntity<>("error", HttpStatus.FORBIDDEN);
+           return new ResponseEntity<>("there are ships", HttpStatus.FORBIDDEN);
        }
 
        ships.forEach(ship -> gamePlayer.addShip(ship));
