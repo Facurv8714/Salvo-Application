@@ -6,7 +6,8 @@ var app = new Vue({
     player2: {},
     user: null,
     gpid: null,
-    arrayLocationsShip: []
+    arrayLocationsShip: [],
+    arrayLocationsSalvo: []
   },
   methods: {
 
@@ -15,8 +16,8 @@ var app = new Vue({
              .done(function() { window.location="http://localhost:8080/web/games.html?userName=ntsd&Password="; console.log("logged out!");})
           },
  posicionateShips: function(){
-        app.recorrerShips();
-      $.post({
+    app.recorrerShips();
+        $.post({
         url: '/api/games/players/'+app.gpid+'/ships',
         data: JSON.stringify( app.arrayLocationsShip ),
         dataType: "text",
@@ -31,29 +32,46 @@ var app = new Vue({
         alert("Failed to add ship");
         })
 
-      },
+ },
+
+posicionateSalvos: function(){
+        $.post({
+        url: '/api/games/players/'+app.gpid+'/salvos',
+        data: JSON.stringify({"turn":0, "locations": app.arrayLocationsSalvo }),
+        dataType: "text",
+        contentType: "application/json"
+        })
+        .done(function(){
+        alert("salvo fired");
+        window.location.reload(true);
+
+        })
+        .fail(function(){
+        alert("something went wrong")})
+ },
 
 recorrerShips: function(){
- $("#Trompeta, #Baquetas, #Microfono, #Piano, #Guitarra").each(function(i, barco){
-       var h = parseInt($(this).attr("data-gs-height"));
-       var w = parseInt($(this).attr("data-gs-width"));
-       var posX = parseInt($(this).attr("data-gs-x"));
-       var posY = parseInt($(this).attr("data-gs-y"));
+    $("#Trompeta, #Baquetas, #Microfono, #Piano, #Guitarra").each(function(i, barco){
+        var h = parseInt($(this).attr("data-gs-height"));
+        var w = parseInt($(this).attr("data-gs-width"));
+        var posX = parseInt($(this).attr("data-gs-x"));
+        var posY = parseInt($(this).attr("data-gs-y"));
 
-       var arrayLocations = [];
+        var arrayLocations = [];
             if(w != 1){
-            for (var i = 0; i < w; i++){
+                for (var i = 0; i < w; i++){
                 arrayLocations.push(String.fromCharCode(65+posY)+(posX+1+i));
-            }
+                }
             } else{
-                    for (var i = 0; i < h; i++){
-            arrayLocations.push(String.fromCharCode(i+posY+65)+(posX+1));
-            }
+                for (var i = 0; i < h; i++){
+                arrayLocations.push(String.fromCharCode(i+posY+65)+(posX+1));
+                }
             }
        app.arrayLocationsShip.push({ "type":barco.id, "locations": arrayLocations})
 })
 console.log(app.arrayLocationsShip);
-}
+},
+
 }
 })
 
@@ -191,8 +209,31 @@ function inicializarGrilla(){
             //activa animaciones (cuando se suelta el elemento se ve más suave la caida)
             animate: true
         }
-        //se inicializa el grid con las opciones
-        $('.grid-stack').gridstack(options);
+      var options1 = {
+                  //grilla de 10 x 10
+                  width: 10,
+                  height: 10,
+                  //separacion entre elementos (les llaman widgets)
+                  verticalMargin: 0,
+                  //altura de las celdas
+                  cellHeight: 40,
+                  //desabilitando el resize de los widgets
+                  disableResize: true,
+                  //widgets flotantes
+          		float: true,
+                  //removeTimeout: 100,
+                  //permite que el widget ocupe mas de una columna
+                  disableOneColumnMode: true,
+                  //false permite mover, true impide
+                  staticGrid: true,
+                  //activa animaciones (cuando se suelta el elemento se ve más suave la caida)
+                  animate: true
+              }
+              if(app.gameView.ships.length != 5){
+    //se inicializa el grid con las opciones
+     $('.grid-stack').gridstack(options);
+} else $('.grid-stack').gridstack(options1);
+
 }
 
 function playSalvoes(salvoes, ships){
@@ -230,4 +271,21 @@ function playSalvoes(salvoes, ships){
         }
        }
 }
+
+$("#salvos td").click(function() {
+
+    if(app.arrayLocationsSalvo.length <= 4 && app.arrayLocationsSalvo.indexOf(this.id) == -1){
+        $(this).addClass("disparo-parcial")
+        app.arrayLocationsSalvo.push((this).id);
+  }
+    else if(app.arrayLocationsSalvo.indexOf(this.id) != -1){
+        (this).classList.remove("disparo-parcial")
+        app.arrayLocationsSalvo = app.arrayLocationsSalvo.filter(l => l != this.id);
+  }
+
+    else(alert("you have already select your shots"))
+        console.log(app.arrayLocationsSalvo);
+ }
+
+)
 

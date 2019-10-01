@@ -147,6 +147,39 @@ public class SalvoController {
        return new ResponseEntity<>("ship added", HttpStatus.CREATED);
     }
 
+    @PostMapping("/games/players/{gamePlayerId}/salvos")
+        public ResponseEntity<String> addSalvos (@PathVariable Long gamePlayerId, Authentication authentication, @RequestBody Salvo salvo){
+        if (isGuest(authentication)) {
+            return new ResponseEntity(makeMap("error", "Not log in"), HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<GamePlayer> gamePlayerOptional = gamePlayerRepository.findById(gamePlayerId);
+        if (gamePlayerOptional.isEmpty()){
+            return new ResponseEntity(makeMap("error", "You don´t have acces"), HttpStatus.UNAUTHORIZED);
+        }
+
+        GamePlayer gamePlayer = gamePlayerOptional.get();
+
+        Player player = playerRepository.findByUserName(authentication.getName());
+
+        if(salvo.getLocations().size() > 5){
+            return new ResponseEntity<>("you have more salvos than permitted", HttpStatus.FORBIDDEN);
+        }
+
+        salvo.setTurn(gamePlayer.getSalvoes().size() + 1);
+
+        //long compareTurn = gamePlayer.getGame().getGamePlayers().stream()
+
+
+
+
+
+        gamePlayer.addSalvo(salvo);
+        gamePlayerRepository.save(gamePlayer);
+
+
+        return new ResponseEntity<>("salvo added", HttpStatus.CREATED);
+    }
 
         private Map<String, Object> makeGameViewDTO(GamePlayer gamePlayer) {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
