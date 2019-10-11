@@ -47,4 +47,7 @@ public class Salvo {
         this.gamePlayer = gamePlayer;
     }
 
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
 }

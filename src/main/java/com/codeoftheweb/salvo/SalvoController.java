@@ -168,8 +168,16 @@ public class SalvoController {
 
         salvo.setTurn(gamePlayer.getSalvoes().size() + 1);
 
-        //long compareTurn = gamePlayer.getGame().getGamePlayers().stream()
 
+            GamePlayer gamePlayerx = gamePlayer.getOpponent();
+
+            if(gamePlayer.getOpponent() == null){
+                return new ResponseEntity<>("Falta 1 player", HttpStatus.FORBIDDEN);
+            }
+
+            if(gamePlayer.getOpponent() != null && (gamePlayer.getSalvoes().size()) > (gamePlayer.getOpponent().getSalvoes().size())){
+                return new ResponseEntity<>("Not your turn", HttpStatus.FORBIDDEN);
+            }
 
 
 
@@ -195,6 +203,10 @@ public class SalvoController {
                 .flatMap(gp -> gp.getSalvoes().stream()
                         .map(this::makeSalvoDTO))
                 .collect(Collectors.toList()));
+        dto.put("hits", gamePlayer.getHits());
+        if(gamePlayer.getOpponent() != null) {
+            dto.put("opponentHits", gamePlayer.getOpponent().getHits());
+        }
         return dto;
 
 

@@ -8,222 +8,241 @@
     <link rel="stylesheet" href="dist/gridstack-extra.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://kit.fontawesome.com/67865a9012.js" crossorigin="anonymous"></script>
+
     <title>Ship locations!</title>
 </head>
 <body class="gameContainer">
-<div >
-<div class="container" id="app">
-<div id="buttonsRows" class="row mt-3">
-    <div>
-        <a href="http://localhost:8080/web/games.html"><button type="button" class="btn-home"><i class="fas fa-arrow-left"></i></button></a>
-    </div>
-    <div id="logOutForm">
-        <form class="col">
-            <label><button type="button" class="btn btn-outline-light" v-on:click="logout">Log Out</button></label>
-        </form>
-    </div>
-    <div v-if="gameView.ships != null && gameView.ships.length == 0">
-        <form class="col">
-            <label>
-                <button id="addShipBtn" type="button" class="btn btn-outline-success" v-on:click="posicionateShips">Add ship</button>
-            </label>
-        </form>
-    </div>
-    <div v-if="arrayLocationsSalvo.length == 5">
-        <form class="col">
-            <label><button type="button" class="btn btn-outline-warning" v-on:click="posicionateSalvos">Fire!</button></label>
-        </form>
-    </div>
-</div>
-    <div class="pvsp">
-        <p>{{player1.email}} (you) vs {{player2.email}} </p>
-
-    </div>
-    <div class="row">
-        <div class="col">
-<!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
-            <div class="grid-ships">
+    <div class="container" id="app">
+        <div id="buttonsRows" class="row mt-3">
+            <div>
+                <a href="http://localhost:8080/web/games.html"><button type="button" class="btn-home"></button></a>
+            </div>
+            <div id="logOutForm">
+                <form class="col">
+                    <label><button type="button" class="btn btn-outline-light" v-on:click="logout">Log Out</button></label>
+                </form>
+            </div>
+            <div v-if="gameView.ships != null && gameView.ships.length == 0">
+                <form class="col">
+                    <label>
+                        <button id="addShipBtn" type="button" class="btn btn-outline-success" v-on:click="posicionateShips">Add ship</button>
+                    </label>
+                </form>
+            </div>
+            <div v-if="arrayLocationsSalvo.length == 5">
+                <form class="col">
+                    <label><button type="button" class="btn btn-outline-warning" v-on:click="posicionateSalvos">Fire!</button></label>
+                </form>
+            </div>
+        </div>
+        <div class="players">
+            <p>{{player1.email}} (you) vs {{player2.email}} </p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!-- div solo para colocar el borde y posicionar en base a la altura y anchura-->
+                <div class="grid-ships">
                 <!-- div que usa la librería gridstack grid-stack-10 se indica que son 10 columnas-->
-                <div id="grid" class="grid-stack grid-stack-10">
+                    <div id="grid" class="grid-stack grid-stack-10">
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-5">
+                <div class="salvos mb-5">
+                    <table id="salvos" class="table table-bordered  mb-5">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col">1</th>
+                        <th scope="col">2</th>
+                        <th scope="col">3</th>
+                        <th scope="col">4</th>
+                        <th scope="col">5</th>
+                        <th scope="col">6</th>
+                        <th scope="col">7</th>
+                        <th scope="col">8</th>
+                        <th scope="col">9</th>
+                        <th scope="col">10</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">A</th>
+                        <td id="A1"></td>
+                        <td id="A2"></td>
+                        <td id="A3"></td>
+                        <td id="A4"></td>
+                        <td id="A5"></td>
+                        <td id="A6"></td>
+                        <td id="A7"></td>
+                        <td id="A8"></td>
+                        <td id="A9"></td>
+                        <td id="A10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">B</th>
+                        <td id="B1"></td>
+                        <td id="B2"></td>
+                        <td id="B3"></td>
+                        <td id="B4"></td>
+                        <td id="B5"></td>
+                        <td id="B6"></td>
+                        <td id="B7"></td>
+                        <td id="B8"></td>
+                        <td id="B9"></td>
+                        <td id="B10"></td>
 
+                    </tr>
+                    <tr>
+                        <th scope="row">C</th>
+                        <td id="C1"></td>
+                        <td id="C2"></td>
+                        <td id="C3"></td>
+                        <td id="C4"></td>
+                        <td id="C5"></td>
+                        <td id="C6"></td>
+                        <td id="C7"></td>
+                        <td id="C8"></td>
+                        <td id="C9"></td>
+                        <td id="C10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">D</th>
+                        <td id="D1"></td>
+                        <td id="D2"></td>
+                        <td id="D3"></td>
+                        <td id="D4"></td>
+                        <td id="D5"></td>
+                        <td id="D6"></td>
+                        <td id="D7"></td>
+                        <td id="D8"></td>
+                        <td id="D9"></td>
+                        <td id="D10"></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">E</th>
+                        <td id="E1"></td>
+                        <td id="E2"></td>
+                        <td id="E3"></td>
+                        <td id="E4"></td>
+                        <td id="E5"></td>
+                        <td id="E6"></td>
+                        <td id="E7"></td>
+                        <td id="E8"></td>
+                        <td id="E9"></td>
+                        <td id="E10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">F</th>
+                        <td id="F1"></td>
+                        <td id="F2"></td>
+                        <td id="F3"></td>
+                        <td id="F4"></td>
+                        <td id="F5"></td>
+                        <td id="F6"></td>
+                        <td id="F7"></td>
+                        <td id="F8"></td>
+                        <td id="F9"></td>
+                        <td id="F10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">G</th>
+                        <td id="G1"></td>
+                        <td id="G2"></td>
+                        <td id="G3"></td>
+                        <td id="G4"></td>
+                        <td id="G5"></td>
+                        <td id="G6"></td>
+                        <td id="G7"></td>
+                        <td id="G8"></td>
+                        <td id="G9"></td>
+                        <td id="G10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">H</th>
+                        <td id="H1"></td>
+                        <td id="H2"></td>
+                        <td id="H3"></td>
+                        <td id="H4"></td>
+                        <td id="H5"></td>
+                        <td id="H6"></td>
+                        <td id="H7"></td>
+                        <td id="H8"></td>
+                        <td id="H9"></td>
+                        <td id="H10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">I</th>
+                        <td id="I1"></td>
+                        <td id="I2"></td>
+                        <td id="I3"></td>
+                        <td id="I4"></td>
+                        <td id="I5"></td>
+                        <td id="I6"></td>
+                        <td id="I7"></td>
+                        <td id="I8"></td>
+                        <td id="I9"></td>
+                        <td id="I10"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">J</th>
+                        <td id="J1"></td>
+                        <td id="J2"></td>
+                        <td id="J3"></td>
+                        <td id="J4"></td>
+                        <td id="J5"></td>
+                       <td id="J6"></td>
+                        <td id="J7"></td>
+                        <td id="J8"></td>
+                        <td id="J9"></td>
+                        <td id="J10"></td>
+                    </tr>
+                </tbody>
+            </table>
                 </div>
             </div>
         </div>
-
-        <div class="col">
-            <div class="salvos">
-            <table id="salvos" class="table table-bordered">
-                <thead>
-                <tr>
-                    <th></th>
-                    <th scope="col">1</th>
-                    <th scope="col">2</th>
-                    <th scope="col">3</th>
-                    <th scope="col">4</th>
-                    <th scope="col">5</th>
-                    <th scope="col">6</th>
-                    <th scope="col">7</th>
-                    <th scope="col">8</th>
-                    <th scope="col">9</th>
-                    <th scope="col">10</th>
-                </tr>
+        <div class="row">
+            <table id="hits" class="table table-bordered mt-5" v-if="gameView.hits != null">
+                <thead class="thead-dark thead">
+                    <tr>
+                        <th scope="col">Player</th>
+                        <th scope="col">Turn</th>
+                        <th scope="col">Sinks</th>
+                        <th scope="col">Left</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">A</th>
-                    <td id="A1"></td>
-                    <td id="A2"></td>
-                    <td id="A3"></td>
-                    <td id="A4"></td>
-                    <td id="A5"></td>
-                    <td id="A6"></td>
-                    <td id="A7"></td>
-                    <td id="A8"></td>
-                    <td id="A9"></td>
-                    <td id="A10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">B</th>
-                    <td id="B1"></td>
-                    <td id="B2"></td>
-                    <td id="B3"></td>
-                    <td id="B4"></td>
-                    <td id="B5"></td>
-                    <td id="B6"></td>
-                    <td id="B7"></td>
-                    <td id="B8"></td>
-                    <td id="B9"></td>
-                    <td id="B10"></td>
-
-                </tr>
-                <tr>
-                    <th scope="row">C</th>
-                    <td id="C1"></td>
-                    <td id="C2"></td>
-                    <td id="C3"></td>
-                    <td id="C4"></td>
-                    <td id="C5"></td>
-                    <td id="C6"></td>
-                    <td id="C7"></td>
-                    <td id="C8"></td>
-                    <td id="C9"></td>
-                    <td id="C10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">D</th>
-                    <td id="D1"></td>
-                    <td id="D2"></td>
-                    <td id="D3"></td>
-                    <td id="D4"></td>
-                    <td id="D5"></td>
-                    <td id="D6"></td>
-                    <td id="D7"></td>
-                    <td id="D8"></td>
-                    <td id="D9"></td>
-                    <td id="D10"></td>
-
-                </tr>
-                <tr>
-                    <th scope="row">E</th>
-                    <td id="E1"></td>
-                    <td id="E2"></td>
-                    <td id="E3"></td>
-                    <td id="E4"></td>
-                    <td id="E5"></td>
-                    <td id="E6"></td>
-                    <td id="E7"></td>
-                    <td id="E8"></td>
-                    <td id="E9"></td>
-                    <td id="E10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">F</th>
-                    <td id="F1"></td>
-                    <td id="F2"></td>
-                    <td id="F3"></td>
-                    <td id="F4"></td>
-                    <td id="F5"></td>
-                    <td id="F6"></td>
-                    <td id="F7"></td>
-                    <td id="F8"></td>
-                    <td id="F9"></td>
-                    <td id="F10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">G</th>
-                    <td id="G1"></td>
-                    <td id="G2"></td>
-                    <td id="G3"></td>
-                    <td id="G4"></td>
-                    <td id="G5"></td>
-                    <td id="G6"></td>
-                    <td id="G7"></td>
-                    <td id="G8"></td>
-                    <td id="G9"></td>
-                    <td id="G10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">H</th>
-                    <td id="H1"></td>
-                    <td id="H2"></td>
-                    <td id="H3"></td>
-                    <td id="H4"></td>
-                    <td id="H5"></td>
-                    <td id="H6"></td>
-                    <td id="H7"></td>
-                    <td id="H8"></td>
-                    <td id="H9"></td>
-                    <td id="H10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">I</th>
-                    <td id="I1"></td>
-                    <td id="I2"></td>
-                    <td id="I3"></td>
-                    <td id="I4"></td>
-                    <td id="I5"></td>
-                    <td id="I6"></td>
-                    <td id="I7"></td>
-                    <td id="I8"></td>
-                    <td id="I9"></td>
-                    <td id="I10"></td>
-                </tr>
-                <tr>
-                    <th scope="row">J</th>
-                    <td id="J1"></td>
-                    <td id="J2"></td>
-                    <td id="J3"></td>
-                    <td id="J4"></td>
-                    <td id="J5"></td>
-                    <td id="J6"></td>
-                    <td id="J7"></td>
-                    <td id="J8"></td>
-                    <td id="J9"></td>
-                    <td id="J10"></td>
-                </tr>
+                    <tr v-for="hits in gameView.hits" class="me">
+                        <th scope="col">{{player1.email}}</th>
+                        <th scope="row">{{hits.turn}}</th>
+                        <td>{{hits.sink}}</td>
+                        <td>{{hits.left.length}}</td>
+                    </tr>
+                    <tr v-for="hits in gameView.opponentHits" class="opponent">
+                        <th scope="col">{{player2.email}}</th>
+                        <th scope="row">{{hits.turn}}</th>
+                        <td>{{hits.sink}}</td>
+                        <td>{{hits.left.length}}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        </div>
 
     </div>
-</div>
-</div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
-<script src="dist/jquery-ui.min.js"></script>
-<script src="dist/gridstack.js"></script>
-<script src="dist/gridstack.jQueryUI.js"></script>
-<script src="dist/jquery.ui.touch-punch.min.js"></script>
-<script src="game.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="dist/jquery-ui.min.js"></script>
+    <script src="dist/gridstack.js"></script>
+    <script src="dist/gridstack.jQueryUI.js"></script>
+    <script src="dist/jquery.ui.touch-punch.min.js"></script>
+    <script src="game.js"></script>
 
 </body>
 </html>

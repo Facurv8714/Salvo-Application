@@ -35,6 +35,7 @@ var app = new Vue({
  },
 
 posicionateSalvos: function(){
+
         $.post({
         url: '/api/games/players/'+app.gpid+'/salvos',
         data: JSON.stringify({"turn":0, "locations": app.arrayLocationsSalvo }),
@@ -100,6 +101,7 @@ fetch('/api/game_view/'+ app.gpid)
     console.log(app.player2);
     console.log(app.salvoes);
     console.log(app.ships);
+    hitedHits();
   });
 
 
@@ -209,30 +211,12 @@ function inicializarGrilla(){
             //activa animaciones (cuando se suelta el elemento se ve más suave la caida)
             animate: true
         }
-      var options1 = {
-                  //grilla de 10 x 10
-                  width: 10,
-                  height: 10,
-                  //separacion entre elementos (les llaman widgets)
-                  verticalMargin: 0,
-                  //altura de las celdas
-                  cellHeight: 40,
-                  //desabilitando el resize de los widgets
-                  disableResize: true,
-                  //widgets flotantes
-          		float: true,
-                  //removeTimeout: 100,
-                  //permite que el widget ocupe mas de una columna
-                  disableOneColumnMode: true,
-                  //false permite mover, true impide
-                  staticGrid: true,
-                  //activa animaciones (cuando se suelta el elemento se ve más suave la caida)
-                  animate: true
-              }
-              if(app.gameView.ships.length != 5){
+       if(app.gameView.ships.length > 0){
+           //se inicializa el grid con las opciones
+           options.staticGrid = true;
+          }
     //se inicializa el grid con las opciones
      $('.grid-stack').gridstack(options);
-} else $('.grid-stack').gridstack(options1);
 
 }
 
@@ -274,7 +258,7 @@ function playSalvoes(salvoes, ships){
 
 $("#salvos td").click(function() {
 
-    if(app.arrayLocationsSalvo.length <= 4 && app.arrayLocationsSalvo.indexOf(this.id) == -1){
+    if(app.arrayLocationsSalvo.length <= 4 && app.arrayLocationsSalvo.indexOf(this.id) == -1 && this.childNodes.length == 0){
         $(this).addClass("disparo-parcial")
         app.arrayLocationsSalvo.push((this).id);
   }
@@ -283,9 +267,21 @@ $("#salvos td").click(function() {
         app.arrayLocationsSalvo = app.arrayLocationsSalvo.filter(l => l != this.id);
   }
 
-    else(alert("you have already select your shots"))
-        console.log(app.arrayLocationsSalvo);
- }
+    else if(app.arrayLocationsSalvo.length >= 5){
+    alert("you have already select your shots")}
 
-)
+    else if(this.childNodes.length != 0){
+    alert("you already shot in here")}
+        console.log(app.arrayLocationsSalvo);
+ });
+
+function hitedHits(){
+    for(var i = 0; i < app.gameView.hits.length; i++){
+        for(var j = 0; j < app.gameView.hits[i].hits.length; j++){
+            for(var t = 0; t < $("#salvos td").length; t++)
+            if($("#salvos td")[t].id == app.gameView.hits[i].hits[j]){
+               $($("#salvos td")[t]).addClass("hited");
+            }
+        }}
+};
 

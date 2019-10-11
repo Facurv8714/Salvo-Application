@@ -5,12 +5,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.xml.stream.Location;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 public class GamePlayer {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
@@ -93,4 +95,61 @@ public class GamePlayer {
     public Score getScore() {
         return player.getScore(game);
     }
+
+    public GamePlayer getOpponent() {
+        return this.getGame().getGamePlayers().stream()
+              .filter(gp -> gp.getId() != this.id)
+                .findFirst()
+                .orElse(null);
+      }
+
+      public List<Map<String, Object>> getHits(){
+        if(getOpponent() == null){
+            return null;
+        }
+
+        List<Map<String, Object>> listaReturn = new ArrayList<>();
+        List<String> shipLocation = getOpponent().getShips().stream().flatMap(Ship -> Ship.getLocations().stream()).collect(toList());
+        List<String> globalHits = new ArrayList<>();
+
+        salvoes.stream().sorted(Comparator.comparing(Salvo::getTurn)).forEach(salvo -> {
+            List<String> hitsLocation = new ArrayList<>();
+
+            salvo.getLocations().stream().forEach(location -> {
+               if(shipLocation.contains(location)){
+                    hitsLocation.add(location);
+                    globalHits.add(location);
+               }
+            });
+            List<String> sinks = new ArrayList<>();
+            List<String> unsinks = new ArrayList<>();
+
+            getOpponent().getShips().stream().forEach(ship -> {
+                if(globalHits.containsAll(ship.getLocations())){
+                    sinks.add(ship.getType());
+                }
+                else unsinks.add(ship.getType());
+            });
+
+
+
+              Map<String, Object> dto = new LinkedHashMap<String, Object>();
+                dto.put("turn", salvo.getTurn());
+                dto.put("hits", hitsLocation);
+                dto.put("sink", sinks);
+                dto.put("left", unsinks);
+                listaReturn.add(dto);
+
+        });
+
+
+          return listaReturn;
+      }
+
+
+
+
+
+
+
 }
